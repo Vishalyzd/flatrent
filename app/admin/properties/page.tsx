@@ -8,7 +8,6 @@ import { ProtectedRoute } from '@/components/protected-route'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { useToast } from '@/components/ui/use-toast'
 import { propertyService } from '@/lib/firebase/db'
 import type { Property } from '@/types/database'
 import { Check, X } from 'lucide-react'
@@ -21,7 +20,6 @@ export default function AdminPropertiesPage() {
   const [loading, setLoading] = useState(true)
   const { user } = useAuth()
   const router = useRouter()
-  const { toast } = useToast()
 
   useEffect(() => {
     if (!user) {
@@ -99,28 +97,26 @@ export default function AdminPropertiesPage() {
               {properties.map((property) => (
                 <Card key={property.id}>
                   <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-lg">{property.title}</CardTitle>
-                      <Badge variant="secondary">Pending</Badge>
-                    </div>
+                    <CardTitle>{property.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">{property.location.address}</p>
-                      <p className="text-lg font-semibold">${property.price}/month</p>
+                    <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground">{property.description}</p>
                       <div className="flex justify-end space-x-2">
                         <Button
                           variant="outline"
-                          size="icon"
-                          onClick={() => handleStatusUpdate(property.id, 'rejected')}
+                          size="sm"
+                          onClick={() => handleStatusUpdate(property.id, "rejected")}
                         >
-                          <X className="h-4 w-4" />
+                          <X className="h-4 w-4 mr-2" />
+                          Reject
                         </Button>
                         <Button
-                          size="icon"
-                          onClick={() => handleStatusUpdate(property.id, 'approved')}
+                          size="sm"
+                          onClick={() => handleStatusUpdate(property.id, "approved")}
                         >
-                          <Check className="h-4 w-4" />
+                          <Check className="h-4 w-4 mr-2" />
+                          Approve
                         </Button>
                       </div>
                     </div>
