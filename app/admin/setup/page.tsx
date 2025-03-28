@@ -6,11 +6,10 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { userService } from '@/lib/firebase/db'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useToast } from '@/components/ui/use-toast'
+import { toast } from 'sonner'
 
 export default function AdminSetupPage() {
   const [isCreating, setIsCreating] = useState(false)
-  const { toast } = useToast()
 
   const createAdminAccount = async () => {
     try {
@@ -27,19 +26,12 @@ export default function AdminSetupPage() {
         email,
         role: 'admin',
         name,
-      })
+      }, userCredential.user.uid)
 
-      toast({
-        title: 'Success',
-        description: 'Admin account created successfully!',
-      })
+      toast.success('Admin account created successfully!')
     } catch (error) {
       console.error('Error creating admin account:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to create admin account. Please try again.',
-        variant: 'destructive',
-      })
+      toast.error('Failed to create admin account. Please try again.')
     } finally {
       setIsCreating(false)
     }
