@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 import { userService } from '@/lib/firebase/db';
 import { useAuth } from '@/contexts/auth-context';
